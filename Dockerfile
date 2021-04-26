@@ -106,4 +106,33 @@ ENV JOB_200_WHEN='daily weekly' \
 FROM postgres AS postgres-s3
 ENV JOB_500_WHAT='dup full $SRC $DST' \
     JOB_500_WHEN='weekly' \
-    OPTIONS_EXTRA='--metadata-sync-mode partial --full-if-older-than 1W --file-prefix-archive archive-$(hostname -f)- --file-prefix-manifest manifest-$(hostname -f)- --file-prefix-signature signature-$(hostname -f)- --s3-european-buckets --s3-multipart-chunk-size 10 --s3-use-new-style'
+    OPTIONS_EXTRA='--metadata-syncmode partial --full-if-older-than 1W --file-prefix-archive archive-$(hostname -f)- --file-prefix-manifest manifest-$(hostname -f)- --file-prefix-signature signature-$(hostname -f)- --s3-european-buckets --s3-multipart-chunk-size 10 --s3-use-new-style'
+RUN apk add --update build-base libcurl curl-dev asciidoc openssl-dev glib-dev glib libtool automake autoconf
+RUN rm -rf /src
+RUN mkdir -p /src
+WORKDIR /src
+RUN wget https://megatools.megous.com/builds/megatools-1.10.2.tar.gz
+RUN tar -xzvf megatools-1.10.2.tar.gz megatools-1.10.2
+WORKDIR /src/megatools-1.10.2
+RUN ./configure --prefix=$HOME/.local
+RUN make -j4
+RUN make install
+RUN rm -rf /usr/local/bin/megacopy
+RUN ln -s /src/megatools-1.10.2/megacopy /usr/local/bin/megacopy
+RUN rm -rf /usr/local/bin/megadf
+RUN ln -s /src/megatools-1.10.2/megadf /usr/local/bin/megadf
+RUN rm -rf /usr/local/bin/megadl
+RUN ln -s /src/megatools-1.10.2/megadl /usr/local/bin/megadl
+RUN rm -rf /usr/local/bin/megaget
+RUN ln -s /src/megatools-1.10.2/megaget /usr/local/bin/megaget
+RUN rm -rf /usr/local/bin/megals
+RUN ln -s /src/megatools-1.10.2/megals /usr/local/bin/megals
+RUN rm -rf /usr/local/bin/megamkdir
+RUN ln -s /src/megatools-1.10.2/megamkdir /usr/local/bin/megamkdir
+RUN rm -rf /usr/local/bin/megaput
+RUN ln -s /src/megatools-1.10.2/megaput /usr/local/bin/megaput
+RUN rm -rf /usr/local/bin/megareg
+RUN ln -s /src/megatools-1.10.2/megareg /usr/local/bin/megareg
+RUN rm -rf /usr/local/bin/megarm
+RUN ln -s /src/megatools-1.10.2/megarm /usr/local/bin/megarm
+
