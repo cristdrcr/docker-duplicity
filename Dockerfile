@@ -106,7 +106,11 @@ ENV JOB_200_WHEN='daily weekly' \
 FROM postgres AS postgres-s3
 ENV JOB_500_WHAT='dup full $SRC $DST' \
     JOB_500_WHEN='weekly' \
-    OPTIONS_EXTRA='--metadata-syncmode partial --full-if-older-than 1W --file-prefix-archive archive-$(hostname -f)- --file-prefix-manifest manifest-$(hostname -f)- --file-prefix-signature signature-$(hostname -f)- --s3-european-buckets --s3-multipart-chunk-size 10 --s3-use-new-style'
+    OPTIONS_EXTRA='--metadata-sync-mode partial --full-if-older-than 1W --file-prefix-archive archive-$(hostname -f)- --file-prefix-manifest manifest-$(hostname -f)- --file-prefix-signature signature-$(hostname -f)- --s3-european-buckets --s3-multipart-chunk-size 10 --s3-use-new-style'
+FROM postgres AS postgres-mega
+ENV JOB_500_WHAT='dup full $SRC $DST' \
+    JOB_500_WHEN='weekly' \
+    OPTIONS_EXTRA='--metadata-sync-mode partial --full-if-older-than 1W --file-prefix-archive archive-$(hostname -f)- --file-prefix-manifest manifest-$(hostname -f)- --file-prefix-signature signature-$(hostname -f)-'
 RUN apk add --update build-base libcurl curl-dev asciidoc openssl-dev glib-dev glib libtool automake autoconf
 RUN rm -rf /src
 RUN mkdir -p /src
