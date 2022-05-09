@@ -16,7 +16,7 @@
 - [Tags](#tags)
 - [Environment variables available](#environment-variables-available)
   - [`CRONTAB_{15MIN,HOURLY,DAILY,WEEKLY,MONTHLY}`](#crontab_15minhourlydailyweeklymonthly)
-  - [`DBS_TO_EXCLUDE`](#dbs_to_exclude)
+  - [`DBS_TO_{INCLUDE,EXCLUDE}`](#dbs_to_includeexclude)
   - [`DST`](#dst)
   - [`EMAIL_FROM`](#email_from)
   - [`EMAIL_SUBJECT`](#email_subject)
@@ -121,7 +121,9 @@ CRONTAB_WEEKLY=0 1 * * SUN
 CRONTAB_MONTHLY=0 5 1 * *
 ```
 
-### `DBS_TO_EXCLUDE`
+### `DBS_TO_{INCLUDE,EXCLUDE}`
+
+Only available in the [PostgreSQL flavors](#postgresql-docker-duplicity-postgres).
 
 Define a Regular Expression to filter databases that shouldn't be included in the DB
 dump.
@@ -134,6 +136,12 @@ use:
 
 ```bash
 DBS_TO_EXCLUDE="^(DB1|DB2)$"
+```
+
+Or, if you only want to include those databases that start with `prod`:
+
+```sh
+DBS_TO_INCLUDE="^prod"
 ```
 
 ### `DST`
@@ -167,7 +175,8 @@ This variable is optional; the default is
 
 ### `EMAIL_TO`
 
-Email report recipient.
+Email report recipient. Multiple recipients can be defined as a comma-separated list of
+emails.
 
 ### `JOB_*_WHAT`
 
@@ -469,7 +478,7 @@ poetry run pytest --image my_custom_image
 The poetry project configuration (in the `pyproject.toml` file) includes a section which
 contains the duplicity dependencies themselves. This allows us to manage those more
 easily and avoid future conflicts. Those are then exported into a `requirements.txt`
-file in this repo, which is the one that is used inside the container.
+file in the docker image build phase.
 
 So, if you need to add a new duplicity dependency to be used inside the container, the
 correct process would be:
@@ -483,15 +492,10 @@ correct process would be:
    Note that it should be marked as an **optional** dependency, as it will not be used
    in general development _outside_ the container.
 
-   The new optional dependency should then be added to the duplicity list in the
+1. The new optional dependency should then be added to the duplicity list in the
    `[tool.poetry.extras]` section of `pyproject.toml`
 
    ```toml
    [tool.poetry.extras]
    duplicity = ["b2", "b2sdk", "boto", "boto3", "gdata", "jottalib", "paramiko", "pexpect", "PyDrive", "pyrax", "python", "requests", "duplicity", "dropbox", "python", "mediafire", "MY_NEW_PACKAGE"]
-   ```
-
-1. Export the new poetry-resolved list of packages to the `requirements.txt` file:
-   ```bash
-   poetry export -E duplicity -o requirements.txt
    ```

@@ -1,3 +1,12 @@
+FROM python:3-slim AS builder
+
+WORKDIR /app
+ADD pyproject.toml poetry.lock ./
+RUN pip install --no-cache-dir poetry
+
+# Build a requirements.txt file matching poetry.lock, that pip understands
+RUN poetry export --extras duplicity --output /app/requirements.txt
+
 FROM python:3-alpine AS base
 
 ENV CRONTAB_15MIN='*/15 * * * *' \
@@ -5,7 +14,6 @@ ENV CRONTAB_15MIN='*/15 * * * *' \
     CRONTAB_DAILY='0 2 * * MON-SAT' \
     CRONTAB_WEEKLY='0 1 * * SUN' \
     CRONTAB_MONTHLY='0 5 1 * *' \
-    DBS_TO_EXCLUDE='$^' \
     DST='' \
     EMAIL_FROM='' \
     EMAIL_SUBJECT='Backup report: {hostname} - {periodicity} - {result}' \
@@ -55,7 +63,7 @@ RUN mkdir -p "$SRC"
 VOLUME [ "/root" ]
 
 # Build dependencies
-ADD requirements.txt requirements.txt
+COPY --from=builder /app/requirements.txt requirements.txt
 RUN apk add --no-cache --virtual .build \
         build-base \
         krb5-dev \
@@ -91,15 +99,17 @@ ENV JOB_500_WHAT='dup full $SRC $DST' \
 
 FROM base AS postgres
 
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/main postgresql-client \
+RUN apk add --no-cache postgresql-client \
 	&& psql --version \
     && pg_dump --version
 
 # Install full version of grep to support more options
 RUN apk add --no-cache grep
 
-ENV JOB_200_WHAT set -euo pipefail; psql -0Atd postgres -c \"SELECT datname FROM pg_database WHERE NOT datistemplate AND datname != \'postgres\'\" | grep --null-data --invert-match -E \"\$DBS_TO_EXCLUDE\" | xargs -0tI DB pg_dump --dbname DB --no-owner --no-privileges --file \"\$SRC/DB.sql\"
+ENV JOB_200_WHAT set -euo pipefail; psql -0Atd postgres -c \"SELECT datname FROM pg_database WHERE NOT datistemplate AND datname != \'postgres\'\" | grep --null-data -E \"\$DBS_TO_INCLUDE\" | grep --null-data --invert-match -E \"\$DBS_TO_EXCLUDE\" | xargs -0tI DB pg_dump --dbname DB --no-owner --no-privileges --file \"\$SRC/DB.sql\"
 ENV JOB_200_WHEN='daily weekly' \
+    DBS_TO_INCLUDE='.*' \
+    DBS_TO_EXCLUDE='$^' \
     PGHOST=db
 
 
