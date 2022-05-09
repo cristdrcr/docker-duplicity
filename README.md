@@ -499,3 +499,4 @@ correct process would be:
    [tool.poetry.extras]
    duplicity = ["b2", "b2sdk", "boto", "boto3", "gdata", "jottalib", "paramiko", "pexpect", "PyDrive", "pyrax", "python", "requests", "duplicity", "dropbox", "python", "mediafire", "MY_NEW_PACKAGE"]
    ```
+ 2. Change
