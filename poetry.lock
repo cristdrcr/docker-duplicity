@@ -453,7 +453,7 @@ optional = true
 python-versions = ">=3.6"
 
 [package.extras]
-tests = ["freezegun", "pytest", "pytest-cov"]
+tests = ["pytest-cov", "pytest", "freezegun"]
 
 [[package]]
 name = "idna"
@@ -515,8 +515,8 @@ optional = true
 python-versions = ">=3.6"
 
 [package.extras]
-test = ["pytest", "pytest-trio", "pytest-asyncio", "testpath", "trio", "async-timeout"]
-trio = ["trio", "async-generator"]
+trio = ["async-generator", "trio"]
+test = ["async-timeout", "trio", "testpath", "pytest-asyncio", "pytest-trio", "pytest"]
 
 [[package]]
 name = "jmespath"
@@ -891,8 +891,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "plumbum"
@@ -1012,7 +1012,7 @@ PyYAML = ">=3.0"
 
 [[package]]
 name = "pydrive2"
-version = "1.12.1"
+version = "1.14.0"
 description = "Google Drive API made easy. Maintained fork of PyDrive."
 category = "main"
 optional = true
@@ -1026,7 +1026,7 @@ PyYAML = ">=3.0"
 six = ">=1.13.0"
 
 [package.extras]
-fsspec = ["fsspec (>=2021.07.0)", "tqdm (>=4.0.0)", "funcy (>=1.14)"]
+fsspec = ["fsspec (>=2021.07.0)", "tqdm (>=4.0.0)", "funcy (>=1.14)", "appdirs (>=1.4.3)"]
 tests = ["pytest (>=4.6.0)", "timeout-decorator", "funcy (>=1.14)", "flake8", "flake8-docstrings", "pytest-mock", "black (==22.3.0)"]
 
 [[package]]
@@ -1508,7 +1508,7 @@ duplicity = ["b2", "b2sdk", "boto", "boto3", "gdata", "jottalib", "paramiko", "p
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "53f62baee52ba00243c41d41956bb817148f5f77620e7a5606a7847620ab6666"
+content-hash = "174a5a56ee054bdf2d9bc6772615e7560204a6ba58d2d750508733f33498d494"
 
 [metadata.files]
 argparse = [
@@ -2067,8 +2067,8 @@ pydrive = [
     {file = "PyDrive-1.3.1.tar.gz", hash = "sha256:83890dcc2278081c6e3f6a8da1f8083e25de0bcc8eb7c91374908c5549a20787"},
 ]
 pydrive2 = [
-    {file = "PyDrive2-1.12.1-py3-none-any.whl", hash = "sha256:bf8d13fb0fb7541e1dc1dabdfd97ae719cb0b65942f50bf51bf6d7f052d9bd1e"},
-    {file = "PyDrive2-1.12.1.tar.gz", hash = "sha256:f7b086a6dc2dc1f9ebf179db273574afb362e78ecd3a008d0a1e27adaeca5165"},
+    {file = "PyDrive2-1.14.0-py3-none-any.whl", hash = "sha256:053a09b5f8e00d275aefc78da7c6b55da9d228aface2dfdbd4d2d49d3713da2b"},
+    {file = "PyDrive2-1.14.0.tar.gz", hash = "sha256:db5da3be671630f571ca7100b281d8b5d72fd078acd425247a6d292e2b3d2840"},
 ]
 pyflakes = [
     {file = "pyflakes-2.4.0-py2.py3-none-any.whl", hash = "sha256:3bb3a3f256f4b7968c9c788781e4ff07dce46bdf12339dcda61053375426ee2e"},
