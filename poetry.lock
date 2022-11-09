@@ -1207,19 +1207,18 @@ six = ">=1.9.0"
 
 [[package]]
 name = "python-swiftclient"
-version = "3.13.1"
+version = "4.1.0"
 description = "OpenStack Object Storage API Client Library"
 category = "main"
 optional = true
-python-versions = "*"
+python-versions = ">=3.6"
 
 [package.dependencies]
-requests = ">=1.1.0"
-six = ">=1.9.0"
+requests = ">=2.4.0"
 
 [package.extras]
 keystone = ["python-keystoneclient (>=0.7.0)"]
-test = ["coverage (>=4.0,!=4.4)", "hacking (>=1.1.0,<1.2.0)", "hacking (>=3.2.0,<3.3.0)", "keystoneauth1 (>=3.4.0)", "mock (>=1.2.0)", "openstacksdk (>=0.11.0)", "stestr (>=2.0.0,!=3.0.0)"]
+test = ["coverage (>=4.0,!=4.4)", "hacking (>=3.2.0,<3.3.0)", "keystoneauth1 (>=3.4.0)", "openstacksdk (>=0.11.0)", "stestr (>=2.0.0,!=3.0.0)"]
 
 [[package]]
 name = "pytz"
@@ -1528,7 +1527,7 @@ duplicity = ["b2", "b2sdk", "boto", "boto3", "gdata", "jottalib", "paramiko", "p
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "621ad1fec93a477b1547d35300025715a7fc965ccdd86b736a889703be1c6557"
+content-hash = "745c3066d29b464d90cc8638ed2fa6a8e69db365d8f40962bcc7dba4acd3aa81"
 
 [metadata.files]
 argparse = [
@@ -2127,8 +2126,8 @@ python-novaclient = [
     {file = "python_novaclient-2.27.0-py2.py3-none-any.whl", hash = "sha256:6406a8ced973d6e73115fde9fa4c09e01046415701afd98aaf6f0295ba0bad86"},
 ]
 python-swiftclient = [
-    {file = "python-swiftclient-3.13.1.tar.gz", hash = "sha256:2d26c90b6392f6befa7fbb16fcda7be44aa26e2ae8a5bee2705d1d1c813833f0"},
-    {file = "python_swiftclient-3.13.1-py2.py3-none-any.whl", hash = "sha256:984805daa56148eba4e7fc8c4d76e0b044572f9ccdee0390bf8027bc3c2e43a8"},
+    {file = "python-swiftclient-4.1.0.tar.gz", hash = "sha256:f82298e4a48f7cbdd680f2638c85d1ca7ae1a76edbe30036d21b4cd7a29c09eb"},
+    {file = "python_swiftclient-4.1.0-py3-none-any.whl", hash = "sha256:4268219e158cd72c0b0751a6f27240da4eea7827485db765f5df9542da4cf144"},
 ]
 pytz = [
     {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},
