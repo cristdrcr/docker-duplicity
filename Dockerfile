@@ -152,4 +152,4 @@ RUN ln -s /src/megatools-1.10.2/megarm /usr/local/bin/megarm
 
 FROM postgres-mega AS postgres-mysql-mega
 RUN apk add mysql-client
-ENV JOB_200_WHAT='/usr/bin/mysqldump -u root -h db --password=$MYSQL_PASSWORD $MYSQL_DATABASE> $SRC/$MYSQL_DATABASE.sql'
+ENV JOB_200_WHAT='/usr/bin/mysqldump -u root -h $MYSQL_HOST --password=$MYSQL_PASSWORD $MYSQL_DATABASE> $SRC/$MYSQL_DATABASE.sql'
