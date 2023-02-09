@@ -7,6 +7,7 @@ import logging
 import re
 import smtplib
 import sys
+import requests
 from datetime import datetime
 from email.utils import formatdate
 from os import environ, path
@@ -30,6 +31,7 @@ smtp_tls = environ.get("SMTP_TLS", "").lower() in {"1", "true"}
 from_ = environ.get("EMAIL_FROM")
 to = environ.get("EMAIL_TO")
 subject = environ.get("EMAIL_SUBJECT")
+send_post = environ.get("SEND_POST", "")
 
 # Get the commands we need to run
 to_run = {}
@@ -110,6 +112,9 @@ if all((smtp_host, smtp_port, from_, to, subject)):
         # destination email addresses
         to_addrs = to.replace(" ", "").split(",")
         smtp.sendmail(from_, to_addrs, "\r\n".join(message))
+        if send_post:
+            json_data = {"message": message}
+            response = requests.post(send_post, json=json_data)
     except Exception:
         logging.exception("Failed sending email")
     finally:
